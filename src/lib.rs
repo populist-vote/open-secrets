@@ -343,6 +343,7 @@ async fn test_cand_summary() {
     let response = proxy.cand_summary("N00007360", None).await.unwrap();
     assert_eq!(response.status().is_success(), true);
     let json: serde_json::Value = response.json().await.unwrap();
+    println!("{}", serde_json::to_string_pretty(&json).unwrap());
     assert_eq!(
         json["response"]["summary"]["@attributes"]["cand_name"],
         "Pelosi, Nancy"
@@ -355,6 +356,7 @@ async fn test_cand_contrib() {
     let response = proxy.cand_contrib("N00007360", None).await.unwrap();
     assert_eq!(response.status().is_success(), true);
     let json: serde_json::Value = response.json().await.unwrap();
+    println!("{}", serde_json::to_string_pretty(&json).unwrap());
     assert_eq!(
         json["response"]["contributors"]["@attributes"]["cand_name"],
         "Nancy Pelosi (D)"
@@ -422,20 +424,20 @@ async fn test_get_orgs() {
     assert_eq!(response.status().is_success(), true);
     let json: serde_json::Value = response.json().await.unwrap();
     assert_eq!(
-        json["response"]["organization"][0]["@attributes"]["orgname"],
-        "International Planned Parenthood"
+        json["response"]["organization"]["@attributes"]["orgname"],
+        "Planned Parenthood"
     );
 }
 
 #[tokio::test]
 async fn test_org_summary() {
     let proxy = OpenSecretsProxy::new().unwrap();
-    let response = proxy.org_summary("D000022603").await.unwrap();
+    let response = proxy.org_summary("D000000125").await.unwrap();
     assert_eq!(response.status().is_success(), true);
     let json: serde_json::Value = response.json().await.unwrap();
     assert_eq!(
         json["response"]["organization"]["@attributes"]["orgname"],
-        "International Planned Parenthood"
+        "General Electric"
     );
 }
 
