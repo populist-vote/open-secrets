@@ -86,7 +86,7 @@ impl OpenSecretsProxy {
             key = self.api_key,
             method = "getLegislators",
             id = id,
-            output = self.output.to_string()
+            output = self.output
         );
         self.client.get(url).send().await
     }
@@ -318,7 +318,7 @@ impl OpenSecretsProxy {
 async fn test_get_legislators() {
     let proxy = OpenSecretsProxy::new().unwrap();
     let response = proxy.get_legislators("CO").await.unwrap();
-    assert_eq!(response.status().is_success(), true);
+    assert!(response.status().is_success());
     let _json: serde_json::Value = response.json().await.unwrap();
 }
 
@@ -329,7 +329,7 @@ async fn test_mem_pfd_profile() {
         .mem_pfd_profile("N00007360", Some(2016))
         .await
         .unwrap();
-    assert_eq!(response.status().is_success(), true);
+    assert!(response.status().is_success());
     let json: serde_json::Value = response.json().await.unwrap();
     assert_eq!(
         json["response"]["member_profile"]["@attributes"]["name"],
@@ -341,7 +341,7 @@ async fn test_mem_pfd_profile() {
 async fn test_cand_summary() {
     let proxy = OpenSecretsProxy::new().unwrap();
     let response = proxy.cand_summary("N00007360", None).await.unwrap();
-    assert_eq!(response.status().is_success(), true);
+    assert!(response.status().is_success());
     let json: serde_json::Value = response.json().await.unwrap();
     println!("{}", serde_json::to_string_pretty(&json).unwrap());
     assert_eq!(
@@ -354,7 +354,7 @@ async fn test_cand_summary() {
 async fn test_cand_contrib() {
     let proxy = OpenSecretsProxy::new().unwrap();
     let response = proxy.cand_contrib("N00007360", None).await.unwrap();
-    assert_eq!(response.status().is_success(), true);
+    assert!(response.status().is_success());
     let json: serde_json::Value = response.json().await.unwrap();
     println!("{}", serde_json::to_string_pretty(&json).unwrap());
     assert_eq!(
@@ -367,7 +367,7 @@ async fn test_cand_contrib() {
 async fn test_cand_industry() {
     let proxy = OpenSecretsProxy::new().unwrap();
     let response = proxy.cand_industry("N00007360", None).await.unwrap();
-    assert_eq!(response.status().is_success(), true);
+    assert!(response.status().is_success());
     let json: serde_json::Value = response.json().await.unwrap();
     assert_eq!(
         json["response"]["industries"]["@attributes"]["cand_name"],
@@ -382,7 +382,7 @@ async fn test_cand_ind_by_ind() {
         .cand_ind_by_ind("N00007360", None, "K02")
         .await
         .unwrap();
-    assert_eq!(response.status().is_success(), true);
+    assert!(response.status().is_success());
     let json: serde_json::Value = response.json().await.unwrap();
     assert_eq!(
         json["response"]["candIndus"]["@attributes"]["cand_name"],
@@ -394,7 +394,7 @@ async fn test_cand_ind_by_ind() {
 async fn test_cand_sector() {
     let proxy = OpenSecretsProxy::new().unwrap();
     let response = proxy.cand_sector("N00007360", None).await.unwrap();
-    assert_eq!(response.status().is_success(), true);
+    assert!(response.status().is_success());
     let json: serde_json::Value = response.json().await.unwrap();
     assert_eq!(
         json["response"]["sectors"]["@attributes"]["cand_name"],
@@ -409,7 +409,7 @@ async fn test_cong_cmte_indus() {
         .cong_cmte_indus("HARM", Some(116), "F10")
         .await
         .unwrap();
-    assert_eq!(response.status().is_success(), true);
+    assert!(response.status().is_success());
     let json: serde_json::Value = response.json().await.unwrap();
     assert_eq!(
         json["response"]["committee"]["@attributes"]["committee_name"],
@@ -421,7 +421,7 @@ async fn test_cong_cmte_indus() {
 async fn test_get_orgs() {
     let proxy = OpenSecretsProxy::new().unwrap();
     let response = proxy.get_orgs("Planned Parenthood").await.unwrap();
-    assert_eq!(response.status().is_success(), true);
+    assert!(response.status().is_success());
     let json: serde_json::Value = response.json().await.unwrap();
     assert_eq!(
         json["response"]["organization"]["@attributes"]["orgname"],
@@ -433,7 +433,7 @@ async fn test_get_orgs() {
 async fn test_org_summary() {
     let proxy = OpenSecretsProxy::new().unwrap();
     let response = proxy.org_summary("D000000125").await.unwrap();
-    assert_eq!(response.status().is_success(), true);
+    assert!(response.status().is_success());
     let json: serde_json::Value = response.json().await.unwrap();
     assert_eq!(
         json["response"]["organization"]["@attributes"]["orgname"],
@@ -445,6 +445,6 @@ async fn test_org_summary() {
 async fn test_independent_expend() {
     let proxy = OpenSecretsProxy::new().unwrap();
     let response = proxy.independent_expend().await.unwrap();
-    assert_eq!(response.status().is_success(), true);
+    assert!(response.status().is_success());
     let _json: serde_json::Value = response.json().await.unwrap();
 }
