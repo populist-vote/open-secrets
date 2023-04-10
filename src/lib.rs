@@ -3,18 +3,12 @@ use std::fmt;
 
 const OPEN_SECRETS_BASE_URL: &str = "http://opensecrets.org/api/";
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub enum OutputType {
+    #[default]
     Json,
     Xml,
     Doc,
-}
-
-// Lets default to JSON for our output
-impl Default for OutputType {
-    fn default() -> Self {
-        OutputType::Json
-    }
 }
 
 impl fmt::Display for OutputType {
