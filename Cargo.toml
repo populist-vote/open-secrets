@@ -1,5 +1,5 @@
 [package]
-name = "open_secrets"
+name = "open-secrets"
 authors = ["Wiley McKay Conte <wiley@populist.us>"]
 description = "A client wrapper for the Open Secrets REST API"
 license = "MIT/Apache-2.0"
